@@ -1,0 +1,124 @@
+{% include 'userheader.html' %}
+<br><br><br><br><br>
+<style>
+    body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+
+        align-items: center;
+        justify-content: center;  
+        min-height: 100vh;
+    }
+
+    form {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    table {
+        width: 80%;
+        margin-top: 20px;
+        border-collapse: collapse;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        background-color: #ffffff;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    th,
+    td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    th {
+        background-color: #3498db ;
+        color: #ffffff;
+    }
+
+    tr:hover {
+        background-color: rgba(34, 31, 70, 0.108);
+    }
+
+    a {
+        text-decoration: none;
+        color: #3498db;
+        transition: color 0.3s;
+        font-weight: bold;
+    }
+
+    a:hover {
+        color: #2980b9;
+    }
+
+    /* Responsive styles */
+    @media only screen and (max-width: 600px) {
+        table {
+            width: 1200px;
+        }
+
+        th,
+        td {
+            display: block;
+            width: 100%;
+        }
+    }
+</style>
+{% if data['view'] %}   
+<center>
+    <h1>Blog</h1>
+    <form id="detect-form">
+        <table class="">
+            <tr>
+                <th>Sl.No</th>
+                <th>Blogger</th>
+                <th><span style="margin-right: 350px;"></span>Blog</th>
+                <th>Path</th>
+                <th colspan="2" align="center">Actions</th>
+            </tr>
+            {% for i in data['view'] %}
+            <tr>  
+                <td align="center">{{ loop.index }}</td>
+                <td align="center">{{ i['fname'] }} {{ i['lname'] }}</td>
+                <td align="center">{{ i['blog'] }}</td>
+                <td align="center">{{ i['path'] }}</td>
+                <td align="center">
+                    <a href="#d"><button type="button" onclick="detectSpam('{{ i.blog_id }}')" class="detect-btn">Detect</button></a>
+                </td>
+                <td align="center"><a href="/sendcmm?id={{ i['blog_id'] }}">Send Comment</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </form>
+    <div id="prediction-result"></div>
+</center>
+{% else %}
+<center>
+    <h1>No Blogs Added</h1>
+</center>
+{% endif %}
+<br><br><br>
+{% include 'footer1.html' %}
+
+<script>
+    function detectSpam(blogId) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/detect_blog?id=" + blogId, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    var predictionResult = xhr.responseText;
+                    var predictionDiv = document.getElementById("prediction-result");
+                    predictionDiv.innerHTML = "<p id='d' style='color: red; font-size: 18px;'>Prediction: " + predictionResult + "</p>";
+                } else {
+                    console.error("Error: " + xhr.status);
+                }
+            }
+        };
+        xhr.send();
+    }
+</script>

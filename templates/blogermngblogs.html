@@ -1,0 +1,119 @@
+<style>
+    th, td {
+        padding: 20px;
+        text-align: center;
+    }
+
+    h2 {
+        font-family: 'Verdana', sans-serif;
+        padding: 30px;
+        color: #4CAF50;
+    }
+
+    table {
+        width: 80%;
+        margin: auto;
+    }
+
+    input[type="text"], input[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+    }
+
+    input[type="submit"] {
+        background-color: #3294da; 
+        color: #fff;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #1a5991; 
+    }
+
+    a.btn {
+        display: inline-block;
+        padding: 8px 12px;
+        margin: 5px;
+        text-align: center;
+        text-decoration: none;
+        color: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    a.btn-outline-info {
+        background-color: transparent;
+        border: 2px solid #17a2b8;
+    }
+
+    a.btn-outline-info:hover {
+        background-color: #17a2b8;
+        color: #fff;
+    }
+</style>
+
+{% include 'bloggerheader.html' %}
+<br><br><br><br><br>
+{% if data['up'] %}
+    <center>
+        <form method="post">
+            <h2>Update Blogs</h2>
+            <table>
+                <tr>
+                    <th>Blog</th>
+                    <td><input type="text" name="blog" value="{{data['up'][0]['blog']}}" required ></td>
+                </tr>
+                <tr>
+                    <th>Path</th>
+                    <td><input type="url" name="path" value="{{data['up'][0]['path']}}" required></td>
+                </tr>
+                <tr>
+                    <td align="center" colspan="2"><input type="submit" name="update" value="Update" class="btn btn-success"></td>
+                </tr>    
+            </table>
+        </form>
+    </center>
+{% else %}
+    <center>
+        <form method="post">
+            <h2>Add New Blog</h2>
+            <table>
+                <tr>
+                    <th>Blog</th>
+                    <td><input type="text" name="blog" class="form-control" required></td>
+                </tr>
+                <tr>
+                    <th>Path</th>
+                    <td><input type="url" name="path" class="form-control" required></td>
+                </tr>
+                <tr>
+                    <td align="center" colspan="2"><input type="submit" name="submit" value="Add" class="btn btn-success"></td>
+                </tr>    
+            </table>
+        </form>
+    </center>
+{% endif %}
+    
+<center>
+    <table>
+        {% for i in data['view'] %}
+        <tr>
+            <td>{{loop.index}}</td>
+            <td>{{i['blog']}}</td>
+            <td>{{i['path']}}</td>
+            <td><a href="?action=update&id={{i['blog_id']}}" class="btn btn-outline-info">Update</a></td>
+            <td><a href="?action=delete&id={{i['blog_id']}}" class="btn btn-outline-info">Delete</a></td>
+            <td><a href="viewcmt?id={{i['blog_id']}}" class="btn btn-outline-info">View Comments</a></td>
+        </tr>
+        {% endfor %}
+    </table>    
+</center>
+<br><br><br>
+{% include 'footer1.html' %}

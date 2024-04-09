@@ -1,0 +1,37 @@
+{% include 'userheader.html' %}
+<br><br><br><br><br>
+
+<center>
+	<form method="post">
+		<h1>Send Complaint</h1>
+		<table>
+			<tr>   
+				<th>Complaint:</th>  
+				<td><textarea name="comp"></textarea></td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center"><input type="submit" name="Add" value="Send"></td>
+			</tr>
+		</table><br><br><br>
+         <h1 style="color: #968e8e;">Complaints</h1>
+            <table style="width: 50%; border-collapse: collapse; margin-top: 20px; border: 1px solid #ddd;">
+                <tr align="center" style="background-color: rgb(218, 218, 218);">
+                    <th style="padding: 10px; border: 1px solid #dddddd;">Sl No</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">Complaint</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">Date</th>
+                    <th style="padding: 10px; border: 1px solid #ddd;">Action</th>
+
+                </tr>
+                {% for i in data['vie'] %}
+                <tr style="border: 1px solid #ffffff; background:rgba(247, 241, 235, 0.542)">
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{loop.index}}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{i['complaint']}}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{i['date']}}</td>
+                    <td><a class="btn btn-success" href="user_viewrep?compl_id={{i['complaint_id']}}">Reply</a></td>
+                </tr>
+                {% endfor %}
+      </table><br><br><br><br>	
+	</form>
+</center>
+<br><br><br>
+{% include 'footer1.html' %}

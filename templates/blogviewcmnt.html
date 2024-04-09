@@ -1,0 +1,34 @@
+{% include 'bloggerheader.html' %}
+<br><br><br><br><br>  
+
+{% if data['view'] %}
+<center>
+    <h1>Comments</h1>
+    <form method="post">
+        <table class="table" style="width: 600px;">
+                <tr>
+                    <th>Sl.No</th>
+                    <th>User</th>
+                    <th>Blog</th>
+                    <th>Comment</th>
+                </tr>
+                {% for i in data['view'] %}
+                <tr>
+                    <td align="center">{{ loop.index }}</td>
+                    <td align="center">{{i['fname']}} {{i['lname']}}</td>
+                    <td align="center">{{i['blog']}}</td>
+                    <td align="center">{{i['comment']}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </form>
+</center>
+{% else %}
+<center>
+    <h1>No Comments Here!</h1>
+</center>
+{% endif %}
+
+
+<br><br><br>
+{% include 'footer1.html' %}
